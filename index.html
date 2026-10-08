@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arzoo — Data Analytics Portfolio</title>
+<meta name="description" content="Arzoo, Perth-based data analyst and technology consultant. Power BI, SQL, Python, AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#0B1510;--bg2:#10201A;--panel:rgba(22,42,32,.72);--card:#16291F;--green:#2C5A40;--sage:#9CC587;--mint:#6FD3A8;--sand:#EEE2C6;--cream:#FFF6E2;--muted:#9FB0A4;--brass:#E0B65E;--rose:#E58F7B;--line:rgba(238,226,198,.12);
+  --f:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B1510}}
+:root[data-theme="dark"]{--bg:#0B1510}
+html{scroll-padding-top:calc(72px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(rgba(156,197,135,.09) 1px,transparent 1.2px);background-size:26px 26px;color:var(--sand);font-family:var(--f);line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--brass);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem)}
+h1,h2,h3{margin:0;line-height:1.05;letter-spacing:-.025em}
+
+nav{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top,0px);background:rgba(11,21,16,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:66px}
+.logo{font-weight:800;font-size:1.25rem;text-decoration:none;display:flex;align-items:center;gap:.6rem}
+.logo svg{width:30px;height:30px}
+nav ul{display:flex;gap:1.7rem;list-style:none;margin:0;padding:0;font-size:.95rem;align-items:center}
+nav ul a{text-decoration:none;color:var(--muted)}
+nav ul a:hover{color:var(--cream)}
+nav ul a.pill{color:var(--bg);background:linear-gradient(135deg,var(--sage),var(--mint));padding:.5rem 1.05rem;border-radius:999px;font-weight:600}
+
+/* Hero */
+.hero{position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;width:900px;height:900px;right:-250px;top:-300px;background:radial-gradient(circle,rgba(111,211,168,.22),transparent 60%);pointer-events:none}
+.hero::after{content:"";position:absolute;width:700px;height:700px;left:-300px;bottom:-400px;background:radial-gradient(circle,rgba(224,182,94,.12),transparent 60%);pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,4rem);align-items:center;min-height:min(86vh,760px);padding-top:3rem;padding-bottom:3rem}
+.badge{display:inline-flex;align-items:center;gap:.55rem;font-size:.9rem;color:var(--sand);background:rgba(156,197,135,.08);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;margin-bottom:1.5rem}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(111,211,168,.2);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(111,211,168,0)}}
+.hero h1{font-size:clamp(3rem,7vw,5.8rem);font-weight:800;color:var(--cream);letter-spacing:-.045em}
+.hero h1 span{display:block;background:linear-gradient(100deg,var(--sage) 10%,var(--mint) 55%,var(--brass) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .line{font-size:clamp(1.1rem,1.8vw,1.3rem);margin:1.4rem 0 2rem;max-width:30ch;color:var(--sand)}
+.btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.9rem 1.45rem;border-radius:999px;font-weight:600;text-decoration:none;font-size:1rem;border:0;cursor:pointer;font-family:inherit}
+.btn.solid{background:var(--sand);color:var(--bg)}
+.btn.solid:hover{background:var(--cream)}
+.btn.ghost{border:1.5px solid var(--line);color:var(--sand);background:transparent}
+.btn.ghost:hover{border-color:var(--sand)}
+
+/* Dashboard panel */
+.dash{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:1.1rem;box-shadow:0 40px 90px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(6px)}
+.dash-top{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--muted);padding:0 .3rem .9rem}
+.dash-top .live{display:flex;align-items:center;gap:.4rem}
+.dash-top .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--mint)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.75rem}
+.kpi{background:rgba(11,21,16,.55);border:1px solid var(--line);border-radius:14px;padding:.75rem .85rem}
+.kpi span{font-size:.78rem;color:var(--muted);display:block}
+.kpi b{font-size:1.7rem;font-weight:800;color:var(--cream);line-height:1.15}
+.kpi svg{display:block;width:100%;height:22px;margin-top:.25rem}
+.chartbox{background:rgba(11,21,16,.55);border:1px solid var(--line);border-radius:16px;padding:.7rem .7rem .55rem}
+.chart-head{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);padding:0 .2rem .3rem}
+.chart-head b{color:var(--cream);font-weight:600}
+#chart{width:100%;aspect-ratio:16/10;display:block}
+.modes{display:flex;gap:.35rem;flex-wrap:wrap;padding-top:.5rem}
+.modes button{font:600 .8rem var(--f);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:.3rem .75rem;cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--sage);border-color:var(--sage);color:var(--bg)}
+
+/* Strip */
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(16,32,26,.85)}
+.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.st{padding:1.4rem 1rem 1.4rem 0;display:flex;gap:.85rem;align-items:center}
+.st + .st{padding-left:1.25rem;border-left:1px solid var(--line)}
+.st i{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(156,197,135,.12);color:var(--sage);font-style:normal;font-weight:800}
+.st b{display:block;font-size:1rem;color:var(--cream)}
+.st span{font-size:.85rem;color:var(--muted)}
+
+section.block{padding:clamp(4rem,9vw,6.5rem) 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:1.25rem;flex-wrap:wrap;margin-bottom:2.25rem}
+.head h2{font-size:clamp(2.2rem,5vw,3.4rem);color:var(--cream);font-weight:800}
+.head p{margin:0;color:var(--muted)}
+
+/* Pipeline: what I do */
+.pipe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;position:relative}
+.step{position:relative;padding:1.6rem 1.4rem;background:var(--card);border:1px solid var(--line)}
+.step:first-child{border-radius:20px 0 0 20px}
+.step:last-child{border-radius:0 20px 20px 0}
+.step + .step{border-left:0}
+.step:not(:last-child)::after{content:"";position:absolute;right:-11px;top:50%;width:20px;height:20px;transform:translateY(-50%) rotate(45deg);background:var(--card);border-top:1px solid var(--line);border-right:1px solid var(--line);z-index:2}
+.step svg{width:42px;height:42px;margin-bottom:1rem}
+.step h3{font-size:1.2rem;color:var(--cream);font-weight:600;margin-bottom:.35rem}
+.step p{margin:0;color:var(--muted);font-size:.95rem}
+
+/* Filters + flip cards */
+.filters{display:flex;gap:.45rem;flex-wrap:wrap}
+.filters button{font:600 .9rem var(--f);color:var(--sand);background:transparent;border:1px solid var(--line);border-radius:999px;padding:.45rem 1rem;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--sand);color:var(--bg);border-color:var(--sand)}
+.filters button em{font-style:normal;opacity:.6;margin-left:.3rem}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
+.flip{perspective:1300px;height:380px;border:0;padding:0;background:none;text-align:left;color:inherit;font:inherit;cursor:pointer;border-radius:22px}
+.flip[hidden]{display:none}
+.inner{position:relative;width:100%;height:100%;transition:transform .75s cubic-bezier(.2,.75,.2,1);transform-style:preserve-3d}
+.flip.open .inner{transform:rotateY(180deg)}
+@media (hover:hover){.flip:hover .inner{transform:rotateY(180deg)}}
+.face{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;display:flex;flex-direction:column}
+.front{background:linear-gradient(170deg,#1B3426 0%,var(--card) 60%);border:1px solid var(--line)}
+.art{flex:1;display:grid;place-items:center;padding:1.2rem 1.2rem 0}
+.art svg{width:100%;height:100%;max-height:190px}
+.front .txt{padding:1rem 1.4rem 1.4rem;border-top:1px solid var(--line)}
+.kind{display:inline-block;font-size:.78rem;font-weight:600;color:var(--bg);background:var(--sage);border-radius:999px;padding:.12rem .6rem}
+.kind.Engineering{background:var(--brass)}.kind.AI{background:var(--mint)}
+.front h3{font-size:1.3rem;color:var(--cream);font-weight:600;margin-top:.55rem}
+.hint{position:absolute;top:.9rem;right:.9rem;width:30px;height:30px;border-radius:50%;background:rgba(11,21,16,.5);border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:.9rem}
+.back{transform:rotateY(180deg);background:linear-gradient(160deg,var(--cream),var(--sand));color:var(--bg);padding:1.6rem 1.5rem;justify-content:space-between}
+.back h3{font-size:1.25rem;font-weight:800}
+.back ul{margin:1.1rem 0 0;padding:0;list-style:none;display:grid;gap:.8rem}
+.back li{display:grid;grid-template-columns:1.7rem 1fr;gap:.55rem;font-size:.95rem;line-height:1.35;align-items:start}
+.back li i{width:1.7rem;height:1.7rem;border-radius:8px;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:.8rem;color:var(--cream);background:var(--green)}
+.back li:nth-child(3) i{background:#B07F1E}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1rem}
+.chips span{font-size:.78rem;font-weight:600;padding:.25rem .65rem;border-radius:999px;background:rgba(11,21,16,.08)}
+@media (prefers-reduced-motion: reduce){.inner{transition:none}.badge::before{animation:none}}
+
+/* Heatmap */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:clamp(1rem,3vw,1.75rem)}
+.scroll{overflow-x:auto}
+.heat{width:100%;min-width:560px;table-layout:fixed;border-collapse:separate;border-spacing:6px}
+.heat th{font-weight:500;color:var(--muted);font-size:.88rem;text-align:center;padding:.2rem}
+.heat thead td{width:32%}.heat th[scope=row]{text-align:left;color:var(--sand);font-weight:600;white-space:nowrap;padding-right:1rem}
+.heat td{height:38px;border-radius:9px;background:rgba(238,226,198,.05);position:relative}
+.heat td.l1{background:rgba(156,197,135,.35)}
+.heat td.l2{background:linear-gradient(135deg,var(--sage),var(--mint))}
+.legend{display:flex;gap:1.2rem;align-items:center;justify-content:flex-end;font-size:.82rem;color:var(--muted);margin-top:.9rem;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:.4rem}
+.legend i{width:16px;height:16px;border-radius:5px;display:inline-block}
+
+/* Gantt */
+.gantt{min-width:640px;position:relative;padding-top:2rem}
+.axis{position:absolute;top:0;left:30%;right:0;height:100%}
+.axis span{position:absolute;top:0;font-size:.8rem;color:var(--muted);transform:translateX(-50%)}
+.axis i{position:absolute;top:1.5rem;bottom:0;width:1px;background:var(--line)}
+.now{position:absolute;top:1.5rem;bottom:0;width:2px;background:var(--rose)}
+.now em{position:absolute;top:-1.5rem;left:50%;transform:translateX(-50%);font-style:normal;font-size:.75rem;color:var(--rose);white-space:nowrap}
+.row{display:grid;grid-template-columns:30% 70%;align-items:center;min-height:56px;padding:.4rem 0;position:relative}.row .lbl{padding-right:1rem}.track{min-height:40px}
+.row .lbl b{display:block;color:var(--cream);font-weight:600;font-size:1rem}
+.row .lbl span{font-size:.82rem;color:var(--muted)}
+.track{position:relative;height:100%}
+.bar{position:absolute;top:50%;height:22px;transform:translateY(-50%) scaleX(0);transform-origin:left;border-radius:999px;transition:transform 1s cubic-bezier(.2,.75,.2,1)}
+.gantt.in .bar{transform:translateY(-50%) scaleX(1)}
+.bar.edu{background:linear-gradient(90deg,#4F7E61,var(--sage))}
+.bar.work{background:linear-gradient(90deg,var(--sage),var(--mint))}
+.bar.lead{background:linear-gradient(90deg,#B07F1E,var(--brass))}
+
+/* KPIs */
+.kgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
+.kx{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.5rem;position:relative;overflow:hidden}
+.kx b{display:block;font-size:clamp(2.6rem,5vw,3.4rem);font-weight:800;line-height:1;background:linear-gradient(100deg,var(--sage),var(--mint));-webkit-background-clip:text;background-clip:text;color:transparent}
+.kx h3{font-size:1.1rem;color:var(--cream);font-weight:600;margin:.8rem 0 .2rem}
+.kx p{margin:0;color:var(--muted);font-size:.92rem}
+.kx svg{position:absolute;right:-6px;bottom:-6px;width:130px;height:70px;opacity:.35}
+
+.contact{text-align:center;position:relative;overflow:hidden}
+.contact::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 90% at 50% 0%,rgba(111,211,168,.2),transparent 70%)}
+.contact .wrap{position:relative}
+.contact h2{font-size:clamp(2.6rem,7vw,5rem);color:var(--cream);font-weight:800}
+.contact p{color:var(--muted);margin:1rem 0 2rem;font-size:1.1rem}
+.contact .btns{justify-content:center}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--sand);color:var(--bg);padding:.6rem 1.1rem;border-radius:999px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:30}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+footer{padding:1.5rem 0 2rem;color:var(--muted);font-size:.85rem;text-align:center;border-top:1px solid var(--line)}
+
+@media (max-width:980px){
+  .hero .wrap{grid-template-columns:1fr;min-height:0}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pipe{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+  .step,.step:first-child,.step:last-child{border-radius:20px;border:1px solid var(--line)}
+  .step::after{display:none}
+  .kgrid{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  nav ul li:not(:last-child){display:none}
+  .strip .wrap{grid-template-columns:1fr 1fr}
+  .st,.st + .st{padding:1rem 0;border-left:0}
+  .st:nth-child(even){padding-left:1rem;border-left:1px solid var(--line)}
+  .st i{display:none}
+  .grid,.pipe{grid-template-columns:1fr}
+  .flip{height:360px}
+  .kpis b{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+<nav aria-label="Main"><div class="wrap">
+  <a class="logo" href="#top"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="9" fill="#9CC587"/><rect x="7" y="16" width="4" height="7" rx="1.5" fill="#0B1510"/><rect x="13" y="11" width="4" height="12" rx="1.5" fill="#0B1510"/><rect x="19" y="7" width="4" height="16" rx="1.5" fill="#0B1510"/></svg>Arzoo</a>
+  <ul><li><a href="#projects">Projects</a></li><li><a href="#skills">Skills</a></li><li><a href="#journey">Journey</a></li><li><a class="pill" href="#contact">Hire me</a></li></ul>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="badge">Open to data analytics roles, Perth or remote</span>
+      <h1>Arzoo<span>Data Analyst</span></h1>
+      <p class="line">I turn messy data into dashboards, models and decisions.</p>
+      <div class="btns">
+        <a class="btn solid" href="#projects">See my work</a>
+        <a class="btn ghost" href="#contact">Get in touch</a>
+      </div>
+    </div>
+    <div class="dash" aria-label="Animated dashboard summarising Arzoo's profile">
+      <div class="dash-top"><span class="live">arzoo.analytics</span><span>2026</span></div>
+      <div class="kpis">
+        <div class="kpi"><span>Tools used</span><b data-count="20" data-suffix="+">0</b><svg viewBox="0 0 100 22" preserveAspectRatio="none"><path d="M0 18 L15 15 L30 16 L45 10 L60 12 L75 6 L100 3" stroke="#9CC587" stroke-width="2" fill="none"/></svg></div>
+        <div class="kpi"><span>Students mentored</span><b data-count="180" data-suffix="+">0</b><svg viewBox="0 0 100 22" preserveAspectRatio="none"><path d="M0 19 L20 17 L40 12 L60 13 L80 7 L100 4" stroke="#6FD3A8" stroke-width="2" fill="none"/></svg></div>
+        <div class="kpi"><span>Cohort rank</span><b>#1</b><svg viewBox="0 0 100 22" preserveAspectRatio="none"><g fill="#E0B65E"><rect x="0" y="14" width="14" height="8" rx="2"/><rect x="21" y="10" width="14" height="12" rx="2"/><rect x="42" y="12" width="14" height="10" rx="2"/><rect x="63" y="6" width="14" height="16" rx="2"/><rect x="84" y="1" width="14" height="21" rx="2"/></g></svg></div>
+      </div>
+      <div class="chartbox">
+        <div class="chart-head"><b id="vizlabel">Collect</b><span id="vizsub">raw data points</span></div>
+        <canvas id="chart"></canvas>
+        <div class="modes" id="modes"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="strip"><div class="wrap">
+  <div class="st"><i>V</i><div><b>Visagio</b><span>Technology Consultant</span></div></div>
+  <div class="st"><i>J</i><div><b>Dept of Justice WA</b><span>Data Analyst Intern</span></div></div>
+  <div class="st"><i>U</i><div><b>UWA</b><span>Master of Data Science</span></div></div>
+  <div class="st"><i>1</i><div><b>Batch Topper</b><span>Bachelor of Technology in Computer Science and Engineering</span></div></div>
+</div></div>
+
+<main>
+<section class="block">
+  <div class="wrap">
+    <div class="head"><h2>How I work with data</h2></div>
+    <div class="pipe">
+      <div class="step"><svg viewBox="0 0 42 42" fill="none" stroke-width="2.5" stroke-linecap="round"><ellipse cx="21" cy="10" rx="13" ry="5" stroke="#9CC587"/><path d="M8 10v22c0 3 6 5 13 5s13-2 13-5V10M8 21c0 3 6 5 13 5s13-2 13-5" stroke="#9CC587"/></svg><h3>Collect</h3><p>Pull and clean data from every system.</p></div>
+      <div class="step"><svg viewBox="0 0 42 42" fill="none" stroke-width="2.5" stroke-linecap="round"><circle cx="18" cy="18" r="11" stroke="#9CC587"/><path d="M26 26l10 10" stroke="#9CC587"/><path d="M12 21l4-5 3 3 4-6" stroke="#E0B65E"/></svg><h3>Analyse</h3><p>SQL, Python and statistics to find the story.</p></div>
+      <div class="step"><svg viewBox="0 0 42 42" fill="none" stroke-width="2.5" stroke-linecap="round"><rect x="5" y="6" width="32" height="28" rx="5" stroke="#9CC587"/><path d="M12 27v-6M19 27v-11M26 27v-8" stroke="#9CC587"/><path d="M32 13v14" stroke="#E0B65E"/></svg><h3>Visualise</h3><p>Power BI dashboards people actually use.</p></div>
+      <div class="step"><svg viewBox="0 0 42 42" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M7 21a14 14 0 0 1 24-10l4 4M35 21a14 14 0 0 1-24 10l-4-4" stroke="#9CC587"/><path d="M35 7v8h-8M7 35v-8h8" stroke="#E0B65E"/></svg><h3>Automate</h3><p>Workflows that end manual reporting.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="projects" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <h2>Projects</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="block" id="skills" style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><h2>Skills matrix</h2><p>Where I've used each tool.</p></div>
+    <div class="panel"><div class="scroll">
+      <table class="heat" id="heat"></table></div>
+      <div class="legend"><span><i style="background:linear-gradient(135deg,#9CC587,#6FD3A8)"></i>Core</span><span><i style="background:rgba(156,197,135,.35)"></i>Used</span><span><i style="background:rgba(238,226,198,.05);border:1px solid var(--line)"></i>Not in this role</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="journey" style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><h2>Journey</h2><p>2020 to today.</p></div>
+    <div class="panel"><div class="scroll"><div class="gantt" id="gantt"></div></div></div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><h2>Beyond work</h2></div>
+    <div class="kgrid">
+      <div class="kx"><b data-count="100" data-suffix="+">0</b><h3>UWA Data Science Club</h3><p>Students connected with industry</p><svg viewBox="0 0 130 70"><path d="M0 60 L25 50 L50 54 L75 30 L100 34 L130 8" stroke="#9CC587" stroke-width="3" fill="none"/></svg></div>
+      <div class="kx"><b data-count="50" data-suffix="+">0</b><h3>Girls Programming Network</h3><p>Students taught to code</p><svg viewBox="0 0 130 70"><g fill="#6FD3A8"><rect x="10" y="40" width="18" height="30" rx="3"/><rect x="38" y="28" width="18" height="42" rx="3"/><rect x="66" y="34" width="18" height="36" rx="3"/><rect x="94" y="12" width="18" height="58" rx="3"/></g></svg></div>
+      <div class="kx"><b data-count="40" data-prefix="+" data-suffix="%">0</b><h3>Ignite Mentoring</h3><p>Workshop participation</p><svg viewBox="0 0 130 70"><path d="M0 64 C40 60 60 40 80 30 S120 10 130 4" stroke="#E0B65E" stroke-width="3" fill="none"/></svg></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="block contact" id="contact">
+  <div class="wrap">
+    <h2>Let's talk data.</h2>
+    <p>Open to data analyst, BI and analytics consulting roles.</p>
+    <div class="btns">
+      <a class="btn solid" href="mailto:khokhararzoo11@gmail.com">Email me</a>
+      <button class="btn ghost" id="copy" type="button">Copy email</button>
+    </div>
+  </div>
+</section>
+<footer>Arzoo, Perth, Western Australia</footer>
+<div class="toast" id="toast" role="status">Email copied</div>
+
+<script>
+/* ---------- Project cards with mini charts ---------- */
+const G='#9CC587',M='#6FD3A8',B='#E0B65E',C='#EEE2C6',L='rgba(238,226,198,.12)';
+const grid4=`<g stroke="${L}">${[30,60,90,120].map(y=>`<path d="M20 ${y}H220"/>`).join('')}</g>`;
+const projects=[
+ {cat:"Analytics",title:"Executive dashboards for WA Government",
+  art:`<svg viewBox="0 0 240 150"><rect x="10" y="8" width="220" height="134" rx="12" fill="rgba(11,21,16,.5)" stroke="${L}"/><rect x="22" y="20" width="60" height="26" rx="6" fill="rgba(156,197,135,.15)"/><rect x="90" y="20" width="60" height="26" rx="6" fill="rgba(111,211,168,.15)"/><rect x="158" y="20" width="60" height="26" rx="6" fill="rgba(224,182,94,.15)"/><g fill="${G}"><rect x="26" y="96" width="12" height="34" rx="3"/><rect x="44" y="80" width="12" height="50" rx="3"/><rect x="62" y="88" width="12" height="42" rx="3"/><rect x="80" y="66" width="12" height="64" rx="3"/><rect x="98" y="74" width="12" height="56" rx="3"/></g><circle cx="175" cy="96" r="26" fill="none" stroke="${L}" stroke-width="12"/><circle cx="175" cy="96" r="26" fill="none" stroke="${M}" stroke-width="12" stroke-dasharray="110 200" transform="rotate(-90 175 96)"/><circle cx="175" cy="96" r="26" fill="none" stroke="${B}" stroke-width="12" stroke-dasharray="35 200" stroke-dashoffset="-110" transform="rotate(-90 175 96)"/></svg>`,
+  p:"Leaders needed reliable operational insight",b:"Interactive dashboards modelled in Power Query and DAX",o:"Clear reporting for executive decisions",stack:["Power BI","DAX","Power Query"]},
+ {cat:"Analytics",title:"Operational performance insights",
+  art:`<svg viewBox="0 0 240 150">${grid4}<path d="M20 120 L50 104 L80 110 L110 80 L140 88 L170 56 L200 62 L220 34 L220 130 L20 130Z" fill="url(#ga)"/><defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${M}" stop-opacity=".35"/><stop offset="1" stop-color="${M}" stop-opacity="0"/></linearGradient></defs><path d="M20 120 L50 104 L80 110 L110 80 L140 88 L170 56 L200 62 L220 34" stroke="${M}" stroke-width="3" fill="none" stroke-linejoin="round"/><path d="M20 112 L220 60" stroke="${B}" stroke-width="2" stroke-dasharray="5 5"/><circle cx="220" cy="34" r="5" fill="${B}"/></svg>`,
+  p:"Trends were hidden in raw operational data",b:"Analysis in Excel and Power BI across key datasets",o:"Trends and performance gaps surfaced",stack:["Excel","Power BI","Statistics"]},
+ {cat:"Analytics",title:"Scenario simulation models",
+  art:`<svg viewBox="0 0 240 150">${grid4}<path d="M20 110 C70 100 90 60 130 58 S190 40 220 30 L220 70 C190 78 170 90 130 92 S70 118 20 122Z" fill="rgba(156,197,135,.18)"/><path d="M20 116 C70 108 90 76 130 75 S190 58 220 50" stroke="${G}" stroke-width="3" fill="none"/><path d="M20 118 C70 116 100 104 130 106 S190 96 220 92" stroke="${C}" stroke-width="2.5" fill="none" stroke-dasharray="6 6"/><path d="M20 112 C70 96 100 50 130 40 S190 24 220 16" stroke="${B}" stroke-width="2.5" fill="none" stroke-dasharray="2 6" stroke-linecap="round"/></svg>`,
+  p:"Decisions were made without testing scenarios",b:"Python models comparing operational scenarios",o:"Decisions backed by modelled evidence",stack:["Python","NumPy","Pandas"]},
+ {cat:"Engineering",title:"Multi-system data pipelines",
+  art:`<svg viewBox="0 0 240 150" fill="none" stroke-width="2.5"><g stroke="${G}"><rect x="16" y="22" width="56" height="26" rx="7"/><rect x="16" y="62" width="56" height="26" rx="7"/><rect x="16" y="102" width="56" height="26" rx="7"/></g><g stroke="${L}" stroke-width="2"><path d="M72 35 C100 35 100 75 128 75"/><path d="M72 75 H128"/><path d="M72 115 C100 115 100 75 128 75"/></g><circle r="4" fill="${M}"><animateMotion dur="2.2s" repeatCount="indefinite" path="M72 35 C100 35 100 75 128 75"/></circle><circle r="4" fill="${B}"><animateMotion dur="2.2s" begin=".7s" repeatCount="indefinite" path="M72 115 C100 115 100 75 128 75"/></circle><rect x="128" y="56" width="40" height="38" rx="10" stroke="${B}"/><path d="M140 75l6 6 10-12" stroke="${B}"/><path d="M168 75 H186" stroke="${L}"/><rect x="186" y="50" width="40" height="50" rx="10" fill="rgba(111,211,168,.2)" stroke="${M}"/><path d="M196 86v-8M206 86v-16M216 86v-11" stroke="${M}"/></svg>`,
+  p:"Data spread across systems that didn't agree",b:"ETL with SQL and Python, validated and reconciled",o:"One accurate source for reporting",stack:["SQL","Python","Snowflake"]},
+ {cat:"Engineering",title:"Automated reporting workflows",
+  art:`<svg viewBox="0 0 240 150" fill="none" stroke-width="2.5" stroke-linecap="round"><g stroke="${L}"><rect x="20" y="30" width="44" height="56" rx="6"/><path d="M30 46h24M30 56h24M30 66h16"/></g><path d="M74 58 H104" stroke="${G}" stroke-dasharray="4 5"/><circle cx="126" cy="58" r="22" stroke="${G}"/><path d="M126 44v14l9 6" stroke="${B}"/><path d="M148 58 H176" stroke="${G}" stroke-dasharray="4 5"/><rect x="176" y="30" width="44" height="56" rx="6" stroke="${M}" fill="rgba(111,211,168,.12)"/><path d="M188 66l7 7 14-16" stroke="${M}"/><g fill="${G}" opacity=".7"><rect x="20" y="108" width="40" height="10" rx="5"/></g><g fill="${M}"><rect x="66" y="108" width="154" height="10" rx="5" opacity=".25"/><rect x="66" y="108" width="120" height="10" rx="5"/></g></svg>`,
+  p:"Reports were rebuilt by hand every cycle",b:"Python scripts and Power Automate flows",o:"Less manual effort, reports on time",stack:["Python","Power Automate","SQL"]},
+ {cat:"AI",title:"AI web app for a mining company",
+  art:`<svg viewBox="0 0 240 150"><rect x="20" y="12" width="200" height="126" rx="12" fill="rgba(11,21,16,.5)" stroke="${L}"/><circle cx="36" cy="26" r="3" fill="${L}"/><circle cx="46" cy="26" r="3" fill="${L}"/><rect x="34" y="44" width="110" height="22" rx="11" fill="rgba(238,226,198,.12)"/><rect x="96" y="74" width="110" height="34" rx="11" fill="rgba(111,211,168,.22)"/><rect x="106" y="83" width="80" height="5" rx="2.5" fill="${M}"/><rect x="106" y="93" width="56" height="5" rx="2.5" fill="${M}" opacity=".6"/><rect x="34" y="116" width="172" height="14" rx="7" fill="none" stroke="${L}"/><path d="M200 34l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="${B}"/></svg>`,
+  p:"Teams needed fast answers without manual digging",b:"Python backend, Flutter frontend, AI services via REST APIs",o:"Working GenAI app the client can update themselves",stack:["Python","LLMs","Flutter","Strapi"]}
+];
+const grid=document.getElementById('grid'),filters=document.getElementById('filters');
+projects.forEach(pr=>{
+  const b=document.createElement('button');b.className='flip';b.type='button';b.dataset.cat=pr.cat;b.setAttribute('aria-pressed','false');
+  b.setAttribute('aria-label',`${pr.title}. Problem: ${pr.p}. Built: ${pr.b}. Result: ${pr.o}.`);
+  b.innerHTML=`<div class="inner" aria-hidden="true">
+   <div class="face front"><span class="hint">↻</span><div class="art">${pr.art}</div>
+     <div class="txt"><span class="kind ${pr.cat}">${pr.cat}</span><h3>${pr.title}</h3></div></div>
+   <div class="face back"><div><h3>${pr.title}</h3><ul>
+     <li><i>P</i><span>${pr.p}</span></li><li><i>B</i><span>${pr.b}</span></li><li><i>R</i><span>${pr.o}</span></li></ul></div>
+     <div class="chips">${pr.stack.map(s=>`<span>${s}</span>`).join('')}</div></div></div>`;
+  b.addEventListener('click',()=>{const o=b.classList.toggle('open');b.setAttribute('aria-pressed',o)});
+  grid.appendChild(b);
+});
+["All","Analytics","Engineering","AI"].forEach((c,i)=>{
+  const n=c==="All"?projects.length:projects.filter(p=>p.cat===c).length;
+  const f=document.createElement('button');f.type='button';f.innerHTML=`${c}<em>${n}</em>`;f.setAttribute('aria-pressed',i===0);
+  f.onclick=()=>{[...filters.children].forEach(x=>x.setAttribute('aria-pressed',x===f));
+    [...grid.children].forEach(card=>card.hidden=!(c==="All"||card.dataset.cat===c))};
+  filters.appendChild(f);
+});
+
+/* ---------- Skills heatmap (2 core, 1 used, 0 not yet) ---------- */
+const cols=["Visagio","Dept of Justice","UWA Master"];
+const skills=[["Power BI",[2,2,1]],["DAX & Power Query",[1,2,0]],["SQL",[2,0,2]],["Python",[2,0,2]],["Excel",[0,2,0]],["Statistics & modelling",[2,0,2]],["Data validation",[2,2,1]],["Power Automate",[2,0,0]],["Machine learning",[0,0,2]],["Generative AI & NLP",[2,0,1]],["Stakeholder requirements",[2,2,0]]];
+const lv=["Not in this role","Used","Core"];
+document.getElementById('heat').innerHTML=`<thead><tr><td style="background:none"></td>${cols.map(c=>`<th scope="col">${c}</th>`).join('')}</tr></thead><tbody>${
+  skills.map(([s,v])=>`<tr><th scope="row">${s}</th>${v.map((x,i)=>`<td class="l${x}" title="${s} at ${cols[i]}: ${lv[x]}"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">${lv[x]}</span></td>`).join('')}</tr>`).join('')}</tbody>`;
+
+/* ---------- Gantt ---------- */
+const y0=2020,y1=2027,pct=d=>((d-y0)/(y1-y0))*100,ym=(y,m)=>y+(m-1)/12;
+const rows=[["Bachelor of Technology in Computer Science and Engineering","Maharishi Dayanand University",ym(2020,7),ym(2024,6),"edu"],["Master of Data Science","The University of Western Australia",ym(2024,7),ym(2026,7),"edu"],["Technology Consultant","Visagio Australia",ym(2025,6),ym(2026,10),"work"],["Data Analyst Intern","Department of Justice, WA",ym(2025,11),ym(2026,2),"work"],["Mentoring & leadership","UWA DSC, Ignite, GPN",ym(2025,2),ym(2026,2),"lead"]];
+const gantt=document.getElementById('gantt');
+let ax='<div class="axis">';for(let y=y0;y<y1;y++)ax+=`<span style="left:${pct(y)}%">${y}</span><i style="left:${pct(y)}%"></i>`;
+ax+=`<div class="now" style="left:${pct(ym(2026,10))}%"><em>Today</em></div></div>`;
+gantt.innerHTML=ax+rows.map(([t,s,a,b,c],i)=>`<div class="row"><div class="lbl"><b>${t}</b><span>${s}</span></div><div class="track"><div class="bar ${c}" style="left:${pct(a)}%;width:${pct(b)-pct(a)}%;transition-delay:${i*.12}s"></div></div></div>`).join('')+'<div style="height:1.6rem"></div>';
+
+/* ---------- Count-ups & reveal ---------- */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function count(el){const n=+el.dataset.count,pre=el.dataset.prefix||'',suf=el.dataset.suffix||'';if(reduce){el.textContent=pre+n+suf;return}
+  const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-k,3);el.textContent=pre+Math.round(n*e)+suf;if(k<1)requestAnimationFrame(f)})(t0)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.dataset.count?count(e.target):e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.3});
+document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));io.observe(gantt);
+
+document.getElementById('copy').onclick=async()=>{try{await navigator.clipboard.writeText('khokhararzoo11@gmail.com')}catch(e){}
+  const t=document.getElementById('toast');t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1800)};
+
+/* ---------- Hero chart: points morph between chart types ---------- */
+const cv=document.getElementById('chart'),cx=cv.getContext('2d'),lab=document.getElementById('vizlabel'),sub=document.getElementById('vizsub'),modesEl=document.getElementById('modes');
+const N=96,pal=['#9CC587','#6FD3A8','#E0B65E','#EEE2C6'];let W,H;
+function size(){const d=Math.min(2,devicePixelRatio||1);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+const rnd=(s=>()=>(s=(s*16807)%2147483647)/2147483647)(11);
+const raw=Array.from({length:N},()=>[.04+rnd()*.92,.06+rnd()*.88]);
+const scatter=Array.from({length:N},()=>{const x=.05+rnd()*.9;return [x,Math.min(.94,Math.max(.06,.12+.72*x+(rnd()-.5)*.26))]});
+const hs=[.35,.55,.42,.7,.62,.85,.78,.95];
+const bars=Array.from({length:N},(_,i)=>{const b=i%8,k=Math.floor(i/8);return [.07+b*.12+.02,.05+(k/11)*hs[b]*.88]});
+const line=Array.from({length:N},(_,i)=>{const x=i/(N-1);return [.04+x*.92,.18+.55*x+.1*Math.sin(x*9)]});
+const donut=Array.from({length:N},(_,i)=>{const a=i/N*Math.PI*2-Math.PI/2,r=.32+(i%3)*.04;return [.5+Math.cos(a)*r*(H&&W?H/W:.62),.5+Math.sin(a)*r]});
+const shapes=[{n:"Collect",s:"raw data points",p:raw},{n:"Explore",s:"finding correlation",p:scatter},{n:"Compare",s:"categories side by side",p:bars},{n:"Trend",s:"change over time",p:line},{n:"Share",s:"part of the whole",p:donut}];
+const P=raw.map(([x,y],i)=>({x,y,fx:x,fy:y,c:pal[i%4]}));let cur=0,tStart=0,auto=true;
+shapes.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.textContent=s.n;b.setAttribute('aria-pressed',i===0);b.onclick=()=>{auto=false;go(i)};modesEl.appendChild(b)});
+function go(i){cur=i;tStart=performance.now();P.forEach(p=>{p.fx=p.x;p.fy=p.y});lab.textContent=shapes[i].n;sub.textContent=shapes[i].s;
+  if(i===4){const k=H/W;donut.forEach((d,j)=>{const a=j/N*Math.PI*2-Math.PI/2,r=.34+(j%3)*.045;d[0]=.5+Math.cos(a)*r*k;d[1]=.5+Math.sin(a)*r})}
+  [...modesEl.children].forEach((b,k)=>b.setAttribute('aria-pressed',k===i));
+  P.forEach((p,k)=>{p.c=i===2?pal[(k%8)%4]:i===4?pal[Math.floor(k/N*4)]:pal[k%4]})}
+function draw(now){
+  const t=reduce?1:Math.min(1,(now-tStart)/1100),e=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,pad=14,w=W-pad*2,h=H-pad*2;
+  cx.clearRect(0,0,W,H);cx.strokeStyle='rgba(238,226,198,.07)';cx.lineWidth=1;
+  for(let g=0;g<=4;g++){const y=pad+h*g/4;cx.beginPath();cx.moveTo(pad,y);cx.lineTo(W-pad,y);cx.stroke()}
+  const tgt=shapes[cur].p;P.forEach((p,k)=>{p.x=p.fx+(tgt[k][0]-p.fx)*e;p.y=p.fy+(tgt[k][1]-p.fy)*e});
+  if(cur===3&&t>.6){const a=(t-.6)*2.5;const gr=cx.createLinearGradient(0,pad,0,H-pad);gr.addColorStop(0,`rgba(111,211,168,${.3*a})`);gr.addColorStop(1,'rgba(111,211,168,0)');
+    cx.fillStyle=gr;cx.beginPath();P.forEach((p,k)=>{const X=pad+p.x*w,Y=pad+(1-p.y)*h;k?cx.lineTo(X,Y):cx.moveTo(X,Y)});cx.lineTo(pad+P[N-1].x*w,H-pad);cx.lineTo(pad+P[0].x*w,H-pad);cx.fill();
+    cx.strokeStyle=`rgba(111,211,168,${a})`;cx.lineWidth=2.5;cx.beginPath();P.forEach((p,k)=>{const X=pad+p.x*w,Y=pad+(1-p.y)*h;k?cx.lineTo(X,Y):cx.moveTo(X,Y)});cx.stroke()}
+  if(cur===1&&t>.6){cx.strokeStyle=`rgba(224,182,94,${(t-.6)*2})`;cx.lineWidth=2;cx.setLineDash([6,6]);cx.beginPath();cx.moveTo(pad,pad+(1-.12)*h);cx.lineTo(W-pad,pad+(1-.84)*h);cx.stroke();cx.setLineDash([])}
+  const r=Math.max(2.4,W/125);
+  P.forEach(p=>{const X=pad+p.x*w,Y=pad+(1-p.y)*h;cx.fillStyle=p.c;cx.shadowColor=p.c;cx.shadowBlur=cur===0?0:6;cx.beginPath();
+    if(cur===2){cx.roundRect?cx.roundRect(X-r*1.7,Y-r*.9,r*3.4,r*1.7,2):cx.rect(X-r*1.7,Y-r*.9,r*3.4,r*1.7)}else cx.arc(X,Y,r,0,7);cx.fill()});
+  cx.shadowBlur=0;requestAnimationFrame(draw);
+}
+size();addEventListener('resize',size);go(0);requestAnimationFrame(draw);
+if(!reduce)setInterval(()=>{if(auto)go((cur+1)%shapes.length)},3200);
+</script>
+</body>
+</html>
